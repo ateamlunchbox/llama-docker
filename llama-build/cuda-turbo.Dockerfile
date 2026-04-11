@@ -87,9 +87,13 @@ FROM base AS server
 
 ENV LLAMA_ARG_HOST=0.0.0.0
 
+RUN useradd -r -u 1000 llamauser && chown -R llamauser:llamauser /app
+
 COPY --from=build /app/full/llama-server /app
 
 WORKDIR /app
+
+USER llamauser
 
 HEALTHCHECK CMD [ "curl", "-f", "http://localhost:8080/health" ]
 
