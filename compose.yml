@@ -5,21 +5,28 @@ services:
     image: docker.io/library/llama.cpp:server-cuda-turbo 
     container_name: llama-server
     restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
     deploy:
       resources:
         reservations:
           devices:
             - driver: nvidia
-              count: all
+              count: 1
               capabilities: [gpu]
     ports:
-      - "8080:8080"
+      - "127.0.0.1:8080:8080"
     volumes:
-      - ./models:/models
-      - ./config.ini:/config.ini
+      - ./models:/models:ro
+      - ./config.ini:/config.ini:ro
     environment:
       - CUDA_VISIBLE_DEVICES=0
-      - LLAMA_CACHE=/models
+      - LLAMA_CACHE=/tmp
     command: >
         --models-preset /config.ini
     stdin_open: false
