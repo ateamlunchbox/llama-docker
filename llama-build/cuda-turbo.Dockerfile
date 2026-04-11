@@ -95,6 +95,7 @@ WORKDIR /app
 
 USER llamauser
 
-HEALTHCHECK CMD [ "curl", "-f", "http://localhost:8080/health" ]
+HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
+    CMD [ "curl", "-f", "http://localhost:8080/health" ]
 
 ENTRYPOINT [ "/app/llama-server" ]
