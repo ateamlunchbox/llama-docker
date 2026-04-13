@@ -5,6 +5,7 @@ services:
     image: docker.io/library/llama.cpp:server-cuda-turbo 
     container_name: llama-server
     restart: unless-stopped
+    user: "1002:1002"
     security_opt:
       - no-new-privileges:true
     read_only: true

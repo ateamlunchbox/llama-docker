@@ -1,6 +1,6 @@
 ARG UBUNTU_VERSION=24.04
 # This needs to generally match the container host's environment.
-ARG CUDA_VERSION=13.1.0
+ARG CUDA_VERSION=13.2.0
 # Target the CUDA build image
 ARG BASE_CUDA_DEV_CONTAINER=nvidia/cuda:${CUDA_VERSION}-devel-ubuntu${UBUNTU_VERSION}
 
@@ -87,7 +87,7 @@ FROM base AS server
 
 ENV LLAMA_ARG_HOST=0.0.0.0
 
-RUN useradd -r -u 1000 llamauser && chown -R llamauser:llamauser /app
+RUN useradd -r -u 3300 llamauser && chown -R llamauser:llamauser /app
 
 COPY --from=build /app/full/llama-server /app
 
